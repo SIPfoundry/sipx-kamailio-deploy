@@ -107,6 +107,7 @@ embedded XCAP server and MSRP relay, DNSSEC, gzip compression.
 %define _with_sctp 1
 %define _with_snmp 1
 %define _with_uuid 1
+%define _with_mongodb 1
 
 # groups of distros
 %if 0%{?centos_version} || 0%{?rhel_version}  || 0%{?fedora}
