@@ -11,7 +11,7 @@ PROJECTVER=15.06-stage
 REPOHOST = localhost
 REPOUSER = stage
 PACKAGE = kamailio
-REPOPATH = /home/stage/www-root/sipxecs/${PROJECTVER}/externals/CentOS_6/x86_64/
+REPOPATH = /var/stage/www-root/sipxecs/${PROJECTVER}/externals/CentOS_6/x86_64/
 RPMPATH = RPMBUILD/RPMS/x86_64/*.rpm
 SSH_OPTIONS = -o UserKnownHostsFile=./.known_hosts -o StrictHostKeyChecking=no
 SCP_PARAMS = ${RPMPATH} ${REPOUSER}@${REPOHOST}:${REPOPATH}
@@ -38,7 +38,7 @@ rpm: dist
 docker-build:
 	docker pull sipfoundrydev/sipx-docker-base-libs; \
 	docker run -t --rm --name sipx-${PACKAGE}-builder  -v `pwd`:/BUILD sipfoundrydev/sipx-docker-base-libs \
-	/bin/sh -c "cd /BUILD && yum update -y && make";
+	/bin/sh -c "cd /BUILD && yum update -y && yum install -y mongo-c-driver-devel && make";
 
 
 deploy:

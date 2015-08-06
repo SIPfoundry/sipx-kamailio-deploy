@@ -409,8 +409,8 @@ XMLRPC support for management interface of Kamailio.
 %package	mongodb
 Summary:	MongoDB connectors for Kamailio
 Group:		System Environment/Daemons
-Requires:	libmongoc, kamailio = %version
-BuildRequires:	libmongoc-devel
+Requires:	mongo-c-driver, kamailio = %version
+BuildRequires:	mongo-c-driver-devel
 
 %description	mongodb
 MongoDB modules for Kamailio.
