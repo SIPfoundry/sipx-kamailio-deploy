@@ -1087,6 +1087,7 @@ fi
 %doc %{_docdir}/kamailio/modules/README.xhttp_rpc
 %doc %{_docdir}/kamailio/modules/README.xlog
 %doc %{_docdir}/kamailio/modules/README.xprint
+%doc %{_docdir}/kamailio/modules/README.ims_registrar_scscf
 
 %dir %{_sysconfdir}/kamailio
 %config(noreplace) %{_sysconfdir}/kamailio/*
