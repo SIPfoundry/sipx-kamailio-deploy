@@ -8,13 +8,14 @@ kamailio_TARBALL = kamailio-$(kamailio_VER)_src.tar.gz
 kamailio_SPEC = kamailio.spec
 
 PROJECTVER=15.06-stage
-REPOHOST = localhost
+REPOHOST = stage.sipfoundry.org
 REPOUSER = stage
 PACKAGE = kamailio
 REPOPATH = /var/stage/www-root/sipxecs/${PROJECTVER}/externals/CentOS_6/x86_64/
 RPMPATH = RPMBUILD/RPMS/x86_64/*.rpm
-SSH_OPTIONS = -o UserKnownHostsFile=./.known_hosts -o StrictHostKeyChecking=no
+SSH_OPTIONS = -v -o UserKnownHostsFile=./.known_hosts -o StrictHostKeyChecking=no
 SCP_PARAMS = ${RPMPATH} ${REPOUSER}@${REPOHOST}:${REPOPATH}
+SSH_PASS = sshpass -p `cat .sshpass`
 CREATEREPO_PARAMS = ${REPOUSER}@${REPOHOST} createrepo ${REPOPATH}
 MKDIR_PARAMS = ${REPOUSER}@${REPOHOST} mkdir -p ${REPOPATH}
 
@@ -42,15 +43,15 @@ docker-build:
 
 
 deploy:
-	ssh ${SSH_OPTIONS} ${MKDIR_PARAMS}; \
+	${SSH_PASS} ssh ${SSH_OPTIONS} ${MKDIR_PARAMS}; \
 	if [[ $$? -ne 0 ]]; then \
 		exit 1; \
 	fi; \
-	scp ${SSH_OPTIONS} -r ${SCP_PARAMS}; \
+	${SSH_PASS} scp ${SSH_OPTIONS} -r ${SCP_PARAMS}; \
 	if [[ $$? -ne 0 ]]; then \
 		exit 1; \
 	fi; \
-	ssh ${SSH_OPTIONS} ${CREATEREPO_PARAMS}; \
+	${SSH_PASS} ssh ${SSH_OPTIONS} ${CREATEREPO_PARAMS}; \
 	if [[ $$? -ne 0 ]]; then \
 		exit 1; \
 	fi;
