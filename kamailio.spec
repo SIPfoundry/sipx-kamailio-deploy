@@ -108,6 +108,7 @@ embedded XCAP server and MSRP relay, DNSSEC, gzip compression.
 %define _with_snmp 1
 %define _with_uuid 1
 %define _with_mongodb 1
+%define _with_sipx 1
 
 # groups of distros
 %if 0%{?centos_version} || 0%{?rhel_version}  || 0%{?fedora}
@@ -549,6 +550,21 @@ BuildRequires:	lksctp-tools-devel
 SCTP transport for Kamailio.
 %endif
 
+%if 0%{_with_sipx}
+%package  sipx
+Summary:  SIPX plugins for Kamailio
+Group:    Productivity/Telephony/SIP/Servers
+%if 0%{?fedora}
+Requires: libxml2, libcurl, kamailio = %version, kamailio-mongodb = %version, kamailio-presence = %version
+BuildRequires: libxml2-devel, curl-devel
+%else
+Requires: libxml2, libcurl, kamailio = %version, kamailio-mongodb = %version, kamailio-presence = %version
+BuildRequires: libxml2-devel, curl-devel
+%endif
+
+%description    sipx 
+SIPX plugins for Kamailio.
+%endif
 
 %if 0%{_with_snmp}
 %package  snmpstats
@@ -763,6 +779,9 @@ make every-module group_include="kredis"
 %if 0%{_with_sctp}
 make every-module group_include="ksctp"
 %endif
+%if 0%{_with_sipx}
+make every-module group_include="ksipx"
+%endif
 %if 0%{_with_snmp}
 make every-module group_include="ksnmpstats"
 %endif
@@ -897,6 +916,10 @@ make install-modules-all group_include="kredis" \
 %if 0%{_with_sctp}
 make install-modules-all group_include="ksctp" \
 		doc_prefix=%{buildroot} doc_dir=%{_docdir}/%{name}/
+%endif
+%if 0%{_with_sipx}
+make install-modules-all group_include="ksipx" \
+                doc_prefix=%{buildroot} doc_dir=%{_docdir}/%{name}/
 %endif
 %if 0%{_with_snmp}
 make install-modules-all group_include="ksnmpstats" \
@@ -1605,6 +1628,12 @@ fi
 %{_libdir}/kamailio/modules/sctp.so
 %endif
 
+%if 0%{_with_sipx}
+%files          sipx
+%defattr(-,root,root)
+%doc %{_docdir}/kamailio/modules/README.sipx_bla
+%{_libdir}/kamailio/modules/sipx_bla.so
+%endif
 
 %if 0%{_with_snmp}
 %files snmpstats
