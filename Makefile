@@ -1,6 +1,6 @@
 kamailio_TAG = 2016.02
 kamailio_PACKAGE_REVISION = $(shell ./revision-gen $(kamailio_TAG))
-kamailio_VER = 4.3.1
+kamailio_VER = 4.3.3
 kamailio_RPM_DEFS = \
 	--define "VERSION_NUMBER $(kamailio_VER)" \
 	--define "BUILD_NUMBER $(kamailio_PACKAGE_REVISION)"
