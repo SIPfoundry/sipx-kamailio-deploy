@@ -1,4 +1,4 @@
-kamailio_TAG = 15.06
+kamailio_TAG = 2016.02
 kamailio_PACKAGE_REVISION = $(shell ./revision-gen $(kamailio_TAG))
 kamailio_VER = 4.3.1
 kamailio_RPM_DEFS = \
@@ -7,7 +7,7 @@ kamailio_RPM_DEFS = \
 kamailio_TARBALL = kamailio-$(kamailio_VER)_src.tar.gz
 kamailio_SPEC = kamailio.spec
 
-PROJECTVER=15.06-stage
+PROJECTVER=2016.02-stage
 REPOHOST = stage.sipfoundry.org
 REPOUSER = stage
 PACKAGE = kamailio
@@ -43,15 +43,15 @@ docker-build:
 
 
 deploy:
-	${SSH_PASS} ssh ${SSH_OPTIONS} ${MKDIR_PARAMS}; \
+	ssh ${SSH_OPTIONS} ${MKDIR_PARAMS}; \
 	if [[ $$? -ne 0 ]]; then \
 		exit 1; \
 	fi; \
-	${SSH_PASS} scp ${SSH_OPTIONS} -r ${SCP_PARAMS}; \
+	scp ${SSH_OPTIONS} -r ${SCP_PARAMS}; \
 	if [[ $$? -ne 0 ]]; then \
 		exit 1; \
 	fi; \
-	${SSH_PASS} ssh ${SSH_OPTIONS} ${CREATEREPO_PARAMS}; \
+	ssh ${SSH_OPTIONS} ${CREATEREPO_PARAMS}; \
 	if [[ $$? -ne 0 ]]; then \
 		exit 1; \
 	fi;
