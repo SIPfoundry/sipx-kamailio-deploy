@@ -966,17 +966,12 @@ rm -rf "$RPM_BUILD_ROOT"
 %post
 %if 0%{?suse_version}
 %else
-/sbin/chkconfig --add kamailio
 %endif
 
 %preun
 %if 0%{?suse_version}
 %stop_on_removal %{name}
 %else
-if [ $1 = 0 ]; then
-    /sbin/service kamailio stop > /dev/null 2>&1
-    /sbin/chkconfig --del kamailio
-fi
 %endif
                 
  
