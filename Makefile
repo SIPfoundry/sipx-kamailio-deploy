@@ -1,17 +1,17 @@
-kamailio_TAG = 2016.02
+kamailio_TAG = 2020.08
 kamailio_PACKAGE_REVISION = $(shell ./revision-gen $(kamailio_TAG))
-kamailio_VER = 4.3.3
+kamailio_VER = 5.3.5
 kamailio_RPM_DEFS = \
 	--define "VERSION_NUMBER $(kamailio_VER)" \
 	--define "BUILD_NUMBER $(kamailio_PACKAGE_REVISION)"
 kamailio_TARBALL = kamailio-$(kamailio_VER)_src.tar.gz
-kamailio_SPEC = kamailio.spec
+kamailio_SPEC = kamailio/pkg/kamailio/obs/kamailio.spec
 
-PROJECTVER=2016.02-stage
+PROJECTVER=2020.08-stage
 REPOHOST = stage.sipfoundry.org
 REPOUSER = stage
 PACKAGE = kamailio
-REPOPATH = /var/stage/www-root/sipxecs/${PROJECTVER}/externals/CentOS_6/x86_64/
+REPOPATH = /home/stage/sipxecs/${PROJECTVER}/externals/CentOS_7/x86_64/
 RPMPATH = RPMBUILD/RPMS/x86_64/*.rpm
 SSH_OPTIONS = -v -o UserKnownHostsFile=./.known_hosts -o StrictHostKeyChecking=no
 SCP_PARAMS = ${RPMPATH} ${REPOUSER}@${REPOHOST}:${REPOPATH}
@@ -37,9 +37,9 @@ rpm: dist
 	rpmbuild -ba  --define "%_topdir `cat .topdir`/RPMBUILD" $(kamailio_RPM_DEFS) kamailio.spec
 
 docker-build:
-	docker pull sipfoundrydev/sipx-docker-base-libs; \
-	docker run -t --rm --name sipx-${PACKAGE}-builder  -v `pwd`:/BUILD sipfoundrydev/sipx-docker-base-libs \
-	/bin/sh -c "cd /BUILD && yum update -y && yum install -y mongo-c-driver-devel && make";
+	docker pull sipfoundrydev/sipx-docker-base-libs:canary-v4; \
+		docker run -t --rm --name sipx-${PACKAGE}-builder  -v `pwd`:/BUILD sipfoundrydev/sipx-docker-base-libs:canary-v4 \
+	/bin/sh -c "cd /BUILD && yum update -y && make";
 
 
 deploy:
